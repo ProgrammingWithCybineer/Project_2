@@ -45,3 +45,19 @@ WARNING: Unmatched cancel notification for request id 52
 2022.02.08 15:55:26 INFO  Shut down connection with build server.
 2022.02.08 15:59:54 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\Cybineer\Desktop\Project_2\.metals\lsp.trace.json or C:\Users\Cybineer\AppData\Local\scalameta\metals\cache\lsp.trace.json
 2022.02.08 15:59:55 INFO  logging to file C:\Users\Cybineer\Desktop\Project_2\.metals\metals.log
+2022.02.08 15:59:55 INFO  Started: Metals version 0.11.1 in workspace 'C:\Users\Cybineer\Desktop\Project_2' for client Visual Studio Code 1.64.0.
+2022.02.08 15:59:55 INFO  Parse release: 1.8.0_321
+2022.02.08 15:59:56 INFO  time: initialize in 1.22s
+2022.02.08 15:59:57 INFO  Attempting to connect to the build server...
+2022.02.08 15:59:56 INFO  skipping build import with status 'Installed'
+2022.02.08 15:59:57 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\Cybineer\Desktop\Project_2\.metals\bsp.trace.json or C:\Users\Cybineer\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.02.08 15:59:57 INFO  Attempting to connect to the build server...
+2022.02.08 15:59:57 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\Cybineer\Desktop\Project_2\project\.metals\bsp.trace.json or C:\Users\Cybineer\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.02.08 15:59:57 INFO  time: Connected to build server in 0.36s
+2022.02.08 15:59:57 INFO  Connected to Build server: Bloop v1.4.12
+2022.02.08 15:59:59 INFO  no build target found for C:\Users\Cybineer\Desktop\Project_2\build.sbt. Using presentation compiler with project's scala-library version: 3.1.0
+2022.02.08 15:59:59 INFO  time: code lens generation in 1.81s
+2022.02.08 15:59:59 INFO  time: Imported build in 0.23s
+2022.02.08 16:00:00 INFO  no build target found for C:\Users\Cybineer\Desktop\Project_2\build.sbt. Using presentation compiler with project's scala-library version: 3.1.0
+2022.02.08 16:00:01 INFO  time: code lens generation in 3.38s
+2022.02.08 16:00:05 INFO  time: indexed workspace in 5.94s
