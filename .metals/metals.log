@@ -1,0 +1,45 @@
+2022.02.08 15:52:09 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\Cybineer\Desktop\Project_2\.metals\lsp.trace.json or C:\Users\Cybineer\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.02.08 15:52:10 INFO  logging to file C:\Users\Cybineer\Desktop\Project_2\.metals\metals.log
+2022.02.08 15:52:10 INFO  Started: Metals version 0.11.1 in workspace 'C:\Users\Cybineer\Desktop\Project_2' for client Visual Studio Code 1.64.0.
+2022.02.08 15:52:10 INFO  Parse release: 1.8.0_321
+2022.02.08 15:52:11 INFO  time: initialize in 1.2s
+2022.02.08 15:52:12 WARN  Build server is not auto-connectable.
+2022.02.08 15:52:12 WARN  no build tool detected in workspace 'C:\Users\Cybineer\Desktop\Project_2'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2022.02.08 15:52:12 WARN  no build target for: C:\Users\Cybineer\Desktop\Project_2\src\main\scala\main.scala
+2022.02.08 15:52:13 INFO  no build target found for C:\Users\Cybineer\Desktop\Project_2\src\main\scala\main.scala. Using presentation compiler with project's scala-library version: 3.1.0
+2022.02.08 15:52:15 INFO  time: code lens generation in 2.69s
+2022.02.08 15:53:03 WARN  no build target for: C:\Users\Cybineer\Desktop\Project_2\src\main\scala\Project_2.scala
+2022.02.08 15:53:23 WARN  no build target for: C:\Users\Cybineer\Desktop\Project_2\build.sbt
+2022.02.08 15:54:37 WARN  no build target for: C:\Users\Cybineer\Desktop\Project_2\build.sbt
+2022.02.08 15:54:39 INFO  running 'C:\Program Files\Java\jdk1.8.0_321\bin\java -Djline.terminal=jline.UnsupportedTerminal -Dsbt.log.noformat=true -Dfile.encoding=UTF-8 -Dsbt.version=1.6.1 -jar C:\Users\Cybineer\AppData\Local\Temp\metals4379279778234363593\sbt-launch.jar -Dbloop.export-jar-classifiers=sources bloopInstall'
+2022.02.08 15:54:44 INFO  [info] Updated file C:\Users\Cybineer\Desktop\Project_2\project\build.properties: set sbt.version to 1.6.1
+2022.02.08 15:54:44 INFO  [info] welcome to sbt 1.6.1 (Oracle Corporation Java 1.8.0_321)
+2022.02.08 15:54:48 INFO  [info] loading settings for project project_2-build-build from metals.sbt ...
+2022.02.08 15:54:49 INFO  [info] loading project definition from C:\Users\Cybineer\Desktop\Project_2\project\project
+2022.02.08 15:54:53 INFO  [info] loading settings for project project_2-build from metals.sbt ...
+2022.02.08 15:54:53 INFO  [info] loading project definition from C:\Users\Cybineer\Desktop\Project_2\project
+2022.02.08 15:54:57 INFO  [success] Generated .bloop\project_2-build.json
+2022.02.08 15:54:57 INFO  [success] Total time: 4 s, completed Feb 8, 2022 3:54:57 PM
+2022.02.08 15:54:59 INFO  [info] loading settings for project project_2 from build.sbt ...
+2022.02.08 15:54:59 INFO  [info] set current project to Project_2 (in build file:/C:/Users/Cybineer/Desktop/Project_2/)
+2022.02.08 15:55:04 INFO  [success] Generated .bloop\project_2.json
+2022.02.08 15:55:04 INFO  [success] Generated .bloop\project_2-test.json
+2022.02.08 15:55:04 INFO  [success] Total time: 5 s, completed Feb 8, 2022 3:55:04 PM
+2022.02.08 15:55:04 INFO  time: ran 'sbt bloopInstall' in 25s
+2022.02.08 15:55:04 INFO  Attempting to connect to the build server...
+2022.02.08 15:55:04 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\Cybineer\Desktop\Project_2\.metals\bsp.trace.json or C:\Users\Cybineer\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.02.08 15:55:04 INFO  Attempting to connect to the build server...
+2022.02.08 15:55:04 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\Cybineer\Desktop\Project_2\project\.metals\bsp.trace.json or C:\Users\Cybineer\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.02.08 15:55:04 INFO  time: Connected to build server in 0.24s
+2022.02.08 15:55:04 INFO  Connected to Build server: Bloop v1.4.12
+Feb 08, 2022 3:55:12 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 52
+2022.02.08 15:55:13 INFO  time: indexed workspace in 8.05s
+2022.02.08 15:55:14 INFO  compiling project_2 (1 scala source)
+2022.02.08 15:55:15 INFO  time: code lens generation in 2.24s
+2022.02.08 15:55:15 INFO  time: code lens generation in 3.16s
+2022.02.08 15:55:15 INFO  skipping build import with status 'Installed'
+2022.02.08 15:55:17 INFO  time: compiled project_2 in 3.55s
+2022.02.08 15:55:26 INFO  shutting down Metals
+2022.02.08 15:55:26 INFO  Shut down connection with build server.
+2022.02.08 15:55:26 INFO  Shut down connection with build server.
