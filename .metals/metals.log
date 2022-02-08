@@ -43,3 +43,5 @@ WARNING: Unmatched cancel notification for request id 52
 2022.02.08 15:55:26 INFO  shutting down Metals
 2022.02.08 15:55:26 INFO  Shut down connection with build server.
 2022.02.08 15:55:26 INFO  Shut down connection with build server.
+2022.02.08 15:59:54 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\Cybineer\Desktop\Project_2\.metals\lsp.trace.json or C:\Users\Cybineer\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.02.08 15:59:55 INFO  logging to file C:\Users\Cybineer\Desktop\Project_2\.metals\metals.log
