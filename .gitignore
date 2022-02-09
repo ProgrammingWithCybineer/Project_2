@@ -1,8 +1,0 @@
-metastore_db/
-.bsp/
-project/
-derby.log
-target/
-.vscode/
-.metals/
-.bloop/

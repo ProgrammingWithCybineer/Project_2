@@ -109,9 +109,29 @@ object Project_2 {
                     def userLogIn(){
                         println(" Please type a User Name")
                         userName = scanner.nextLine().trim()
+                        //Username checkpoint
+                        try {
+                            if (userName == "" || userName.length < 3) 
+                                throw new BadDataEntryException
+                                }
+                                catch 
+                                {
+                                    case bui: BadDataEntryException => { println("Name must be at leat a 3 character string. Try again.")
+                                    userLogIn()
+                                }
                         println("")
+
                         println(" Please type A Password")
                         userPassword = scanner.nextLine().trim()
+                        try {
+                            if (userPassword == "" || userPassword.length < 8) 
+                                throw new BadDataEntryException
+                                }
+                                catch 
+                                {
+                                    case bui: BadDataEntryException => { println("Password must be greater than 7 characters. Try again.")
+                                    userLogIn()
+                                }
                         val resultSet = statement.executeQuery("SELECT COUNT(*) FROM userAccount WHERE userName='"+userName+"' AND userPassword='"+userPassword+"';")
                         log.write("Executing 'SELECT COUNT(*) FROM userAccount WHERE userName='"+userName+"' AND userPassword='"+userPassword+"');\n")
                         while ( resultSet.next() ) {
