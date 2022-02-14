@@ -151,9 +151,9 @@ object Project_2 {
                     def userMenu(){
                         println(" What type of data would you like to view. Please select below: ")
                         println("")
-                        println(" (1) Location with the highest total deaths compared to the country with the lowest total deaths")
+                        println(" (1) Country with total death rate by continent.")
                         println("")
-                        println(" (2) Do locations with the lowest total deaths have the highest life expectancy?")
+                        println(" (2) Covid Reported Deaths of Countries with life expectancy below Average?")
                         println("")
                         println(" (3) Counties with the highest fully vaccinated people have lower total deaths?")
                         println("")
@@ -176,7 +176,7 @@ object Project_2 {
                         var choice2 =  (scanner.nextInt())
                         (scanner.nextLine()) 
                         if (choice2 == 1){
-                            println(" Location with the highest total deaths compared to the country with the lowest total deaths?")
+                            println("Country with total death rate by continent.?")
                             method1()
                             userMenu()
 
@@ -269,8 +269,8 @@ object Project_2 {
                     
                    // Query for total number of shark attacks since certain date
              def method1(){
-                        println("Title of Query") 
-                        val result = spark.sql("select location from temp_data")
+                        println("Continent, Country Death rate") 
+                        val result = spark.sql(" WITH cte (SELECT continent,LOCATION   Country ,  sum(TOTAL_DEATHS)  Deaths  FROM temp_data group by continent,LOCATION) SELECT  * FROM cte   WHERE CONTINENT IS NOT NULL")
                         result.show(160)
                         Thread.sleep(100000)
                         result.write.mode("overwrite").csv("results/") 
@@ -279,29 +279,30 @@ object Project_2 {
  
                      
              def method2(){
-                      println("Title of Query")
-                        val result = spark.sql("select Distnct location from temp_data")
+                      println("Covid Reports below Avg life_expectancy")
+                        val result = spark.sql("select location Country, sum(total_deaths) Total_Deaths, life_expectancy from temp_data group by location , life_expectancy  having life_expectancy  < Avg(life_expectancy) AND life_expectancy is not null")
                         result.show(160)
                         Thread.sleep(100000)
                         result.write.mode("overwrite").csv("results/")
                     }
             def method3():Unit={
-                        println("Title of Query")
-                        val result = spark.sql("select location from where loction like 'USA'")
-                        result.show(160)
+                        println("Total Number of Vaccinated People and Total Death")
+                        val queryMe="select location, NumberOfVaccination, NumberOfDeaths from(select location, max(total_vaccinations) NumberOfVaccination, max(total_deaths) NumberOfDeaths from temp_data where location is not null  group by location) as q1 where location not like \'%%income\' order by NumberOfVaccination desc"
+                        val result = spark.sql(queryMe)
+                        result.show(20)
                         Thread.sleep(100000)
                         result.write.mode("overwrite").csv("results/")
                     }
              def method4():Unit={
-                        println("Title of Query")
-                        val result = spark.sql("select location from temp_data ")
+                        println(" population density and Deaths")
+                        val result = spark.sql("select max(population_density)  Population_Density, location as Country, max(total_deaths) TotalDeaths from temp_data where population_density is not null group by location order by population_density desc")
                         result.show(160)
                         Thread.sleep(100000)
                         result.write.mode("overwrite").csv("results/")
                     }  
              def method5():Unit={
                         println("Title of Query")
-                        val result = spark.sql("select location from temp_data")
+                        val result = spark.sql("select max(total_deaths) TotalDeaths, hospital_beds_per_thousand  Available_hospital_beds, location From (select distinct location, continent, hospital_beds_per_thousand, total_deaths from temp_data where location is not null and continent is not null)  q1 group by hospital_beds_per_thousand, location order by totaldeaths desc ")
                         result.show(160)
                         Thread.sleep(100000)
                         result.write.mode("overwrite").csv("results/")
