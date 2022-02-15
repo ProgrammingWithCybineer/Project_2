@@ -10,7 +10,7 @@ import java.sql.Connection
 import com.mysql.cj.xdevapi.UpdateStatement
 import java.io.File
 import java.io.PrintWriter
-
+import java.io.Console;
 
 
 
@@ -21,8 +21,8 @@ object Project_2 {
   // declaring all variables needed for program
         var scanner = new Scanner(System.in)
         val log = new PrintWriter(new File("covidData.log"))
-
-
+        var console= System.console();
+      
         var userName = ""
         var userPassword = ""
         var covidProject = true
@@ -53,7 +53,7 @@ object Project_2 {
                     .option("inferSchema", "true")
                     .option("header", "true")
                     .load("input/covid-data.csv")
-                     csvFile.printSchema()
+                     //csvFile.printSchema()
                     csvFile.createOrReplaceTempView("temp_data")
 
 
@@ -103,7 +103,8 @@ object Project_2 {
                     //User logging in
                     def userLogIn(){
                         println(" Please type a User Name")
-                        userName = scanner.nextLine().trim()
+                       userName = scanner.nextLine().trim()
+                    
                         //Username checkpoint
                         try {
                             if (userName == "" || userName.length < 3){
@@ -119,6 +120,9 @@ object Project_2 {
 
                         println(" Please type A Password")
                         userPassword = scanner.nextLine().trim()
+                     
+                    
+
                         try {
                             if (userPassword == "" || userPassword.length < 8){ 
                                 throw new BadDataEntryException
@@ -309,35 +313,35 @@ object Project_2 {
                     } 
              def method6():Unit={
                         println("Title of Query")
-                        val result = spark.sql("select location from temp_data")
+                        val result = spark.sql("select location,  sum(cast(total_vaccinations as decimal(20,0))) as Total_Vaccination, trunc(date, 'year') as Year from temp_data where location is not null  AND date= '12/31/2020' OR date='12/31/2021' group by location,date")
                         result.show(160)
                         Thread.sleep(100000)
                         result.write.mode("overwrite").csv("results/")
                     } 
              def method7():Unit={
                         println("Title of Query")
-                        val result = spark.sql("select location from temp_data")
+                        val result = spark.sql("select location, continent, max(total_deaths) TotalDeath, max( people_fully_vaccinated) FullyVaccinated from temp_data where continent is not null group by location,continent")
                         result.show(160)
                         Thread.sleep(100000)
                         result.write.mode("overwrite").csv("results/")
                     } 
              def method8():Unit={
                         println("Title of Query")
-                        val result = spark.sql("select location from temp_data")
+                         val result = spark.sql("select median_age, aged_65_older, aged_70_older, max( people_fully_vaccinated)  FullyVaccinated from temp_data group by median_age, aged_65_older, aged_70_older")
                         result.show(160)
                         Thread.sleep(100000)
                         result.write.mode("overwrite").csv("results/")
                     } 
              def method9():Unit={
-                        println("Title of Query")
-                        val result = spark.sql(" ")
+                        println("new cases per day")
+                        val result = spark.sql("select location, continent, new_cases , date from temp_data where continent is not null group by location,continent, new_cases, date ")
                         result.show(160)
                         Thread.sleep(100000)
                         result.write.mode("overwrite").csv("results/")
                     } 
              def method10():Unit={
-                        println("Title of Query")
-                        val result = spark.sql("select location from temp_data")
+                        println("view entire data set")
+                        val result = spark.sql("select * from temp_data")
                         result.show(160)
                         Thread.sleep(100000)
                         result.write.mode("overwrite").csv("results/")
