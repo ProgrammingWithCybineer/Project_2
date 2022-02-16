@@ -2,62 +2,62 @@ import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
-import org.apache.spark.sql.SQLContext
-
+import org.apache.spark.sql._
+import org.apache.log4j._
 import java.util.Scanner
 import java.sql.DriverManager
 import java.sql.Connection
 import com.mysql.cj.xdevapi.UpdateStatement
 import java.io.File
 import java.io.PrintWriter
-
+import java.io.Console;
 
 
 
 
 object Project_2 {
-    def main(args: Array[String]): Unit = {
-        
-        // declaring all variables needed for program
+    def main(args: Array[String]): Unit={
+
+  // declaring all variables needed for program
         var scanner = new Scanner(System.in)
         val log = new PrintWriter(new File("covidData.log"))
-
-
+        var console= System.console();
+      
         var userName = ""
         var userPassword = ""
         var covidProject = true
 
-
-
-
-
-        // This block of code is need to connect to spark/hive/hadoop
-        System.setSecurityManager(null)
-        System.setProperty("hadoop.home.dir", "C:\\hadoop\\")
-        val conf = new SparkConf()
-            .setMaster("local")
-            .setAppName("Project_2")
-        val sc = new SparkContext(conf)
-        sc.setLogLevel("ERROR")
-        val hiveCtx = new HiveContext(sc)
-        import hiveCtx.implicits._
-
-
-
-        // make the connection to mySQL
+// make the connection to mySQL
         val driver = "com.mysql.jdbc.Driver"
         // Modify for whatever port you are running your DB on
-        val url = "jdbc:mysql://localhost:3306/Project_1_Sharks"
+        val url = "jdbc:mysql://localhost:3306/Payroll"
         val username = "root"
         //? DON'T FORGET TO DELETE PASSWORD BEFORE PUSHING TO GITHUB
-        val password = "#####################" // Update to include your password
+        val password = "4370335s" // Update to include your password
         var connection:Connection = null 
         //val statement = connection.createStatement()
 
+//method running the DataFrame creation
+    //covidData()   
+//Loading CSV file and creating DataFrame
+
+                   val spark=SparkSession
+                  .builder
+                  .appName("sparkSQL")
+                  .master("local[*]")
+                  .getOrCreate()
+                  spark.sparkContext.setLogLevel("ERROR")
+
+                    val csvFile =spark.read.format("csv")
+                    .option("mode", "FAILFAST")
+                    .option("inferSchema", "true")
+                    .option("header", "true")
+                    .load("input/covid-data.csv")
+                     //csvFile.printSchema()
+                    csvFile.createOrReplaceTempView("temp_data")
 
 
-
-        try{
+ try{
             // make the connection
             Class.forName(driver)
             connection = DriverManager.getConnection(url, username, password)  
@@ -70,12 +70,7 @@ object Project_2 {
             println("    COVID 19 ANALYSIS          ")
             println("###############################")
             println("")        
-            println("")
-            println("")
             
-
-
-                  
                 // Application loop
                 while (covidProject){
                     mainMenu()
@@ -108,6 +103,21 @@ object Project_2 {
                     //User logging in
                     def userLogIn(){
                         println(" Please type a User Name")
+
+                       userName = scanner.nextLine().trim()
+                    
+                        //Username checkpoint
+                        try {
+                            if (userName == "" || userName.length < 3){
+                                throw new BadDataEntryException
+                            }
+                                }catch {
+                                    case bui: BadDataEntryException =>  println("Name must be at leat a 3 character string. Try again.")
+                                    userLogIn()
+                                
+                                }
+                        }
+
                         userName = scanner.nextLine().trim()
                         //Username checkpoint
                         try {
@@ -119,10 +129,28 @@ object Project_2 {
                                     case bui: BadDataEntryException => { println("Name must be at leat a 3 character string. Try again.")
                                     userLogIn()
                                 }
+
                         println("")
 
                         println(" Please type A Password")
                         userPassword = scanner.nextLine().trim()
+
+                     
+                    
+
+                        try {
+                            if (userPassword == "" || userPassword.length < 8){ 
+                                throw new BadDataEntryException
+                                }
+                        }catch {
+                                    case bui: BadDataEntryException =>  println("Password must be greater than 7 characters. Try again.")
+                                    userLogIn()
+                                
+                                }
+                        
+                        val resultSet = statement.executeQuery("SELECT COUNT(*) FROM payroll.admin_accounts WHERE user_name='"+userName+"' AND Password='"+userPassword+"';")
+                        //log.write("Executing 'SELECT COUNT(*) FROM userAccount WHERE userName='"+userName+"' AND userPassword='"+userPassword+"');\n")
+
                         try {
                             if (userPassword == "" || userPassword.length < 8) 
                                 throw new BadDataEntryException
@@ -134,6 +162,7 @@ object Project_2 {
                                 }
                         val resultSet = statement.executeQuery("SELECT COUNT(*) FROM userAccount WHERE userName='"+userName+"' AND userPassword='"+userPassword+"';")
                         log.write("Executing 'SELECT COUNT(*) FROM userAccount WHERE userName='"+userName+"' AND userPassword='"+userPassword+"');\n")
+
                         while ( resultSet.next() ) {
                             if (resultSet.getString(1) == "1") {
                                 println("You Have Logged In Successfully")
@@ -147,17 +176,16 @@ object Project_2 {
                         }
                         
                                                     
-                    }    
-
-
+                    } 
+                                    
                                         
                     // User Menu
                     def userMenu(){
                         println(" What type of data would you like to view. Please select below: ")
                         println("")
-                        println(" (1) Location with the highest total deaths compared to the country with the lowest total deaths")
+                        println(" (1) Country with total death rate by continent.")
                         println("")
-                        println(" (2) Do locations with the lowest total deaths have the highest life expectancy?")
+                        println(" (2) Covid Reported Deaths of Countries with life expectancy below Average?")
                         println("")
                         println(" (3) Counties with the highest fully vaccinated people have lower total deaths?")
                         println("")
@@ -180,7 +208,7 @@ object Project_2 {
                         var choice2 =  (scanner.nextInt())
                         (scanner.nextLine()) 
                         if (choice2 == 1){
-                            println(" Location with the highest total deaths compared to the country with the lowest total deaths?")
+                            println("Country with total death rate by continent.?")
                             method1()
                             userMenu()
 
@@ -263,137 +291,96 @@ object Project_2 {
                         println("")
                         covidProject = false
                         
-                    }
-
-                    // Creates Create Covid Data Database
-                    def covidData(){
-                        val output = hiveCtx.read
-                            .format("csv")
-                            .option("inferSchema", "true")
-                            .option("header", "true")
-                            .load("input/covid-data.csv")
+                    
                                     
-                        //output.limit(20).show() // will print out the first 20 lines
-
-
-                        // This code will create a temp view of the dataset you used and load the data into a permanent table
-                        // inside of Hadoop. this will persist the data and only require this code to run once.
-                        // After initialization this code will and creation of output will not me necessary
-                        output.createOrReplaceTempView("temp_data")
-                        hiveCtx.sql("SET hive.exec.dynamic.partition.mode=nonstrict")
-                        hiveCtx.sql("SET hive.enforce.bucketing=false")
-                        hiveCtx.sql("SET hive.enforce.sorting=false")
-                        //hiveCtx.sql("USE project1_hive_scala")
-                        
                         
                         
                         
                     }
 
                     
-
-                    // Query for total number of shark attacks since certain date
-                    def method1(){
-                        println("Title of Query")
-                        val result = hiveCtx.sql("")
-                        result.show()
-                        result.write.csv("results/")
-                        log.write("")
-                    }
-
-
-                    // Query for total number of shark attacks since certain date
-                    def method2(){
-                        println("Title of Query")
-                        val result = hiveCtx.sql("")
-                        result.show()
-                        result.write.csv("results/")
-                        log.write("")
-                    }
-
-
-                    // Query for total number of shark attacks since certain date
-                    def method3(){
-                        println("Title of Query")
-                        val result = hiveCtx.sql("")
-                        result.show()
-                        result.write.csv("results/")
-                        log.write("")
-                    }
-
-
-                    // Query for total number of shark attacks since certain date
-                    def method4(){
-                        println("Title of Query")
-                        val result = hiveCtx.sql("")
-                        result.show()
-                        result.write.csv("results/")
-                        log.write("")
-                    }
-
-
-
-                    // Query for total number of shark attacks since certain date
-                    def method5(){
-                        println("Title of Query")
-                        val result = hiveCtx.sql("")
-                        result.show()
-                        result.write.csv("results/")
-                        log.write("")
-                    }
-                    
-                    // Query for what shark is responsible for the most attacks
-                    def method6(){
-                        println("Title of Query")
-                        val result = hiveCtx.sql("")
-                        result.show()
-                        result.write.csv("results/")
-                        log.write("")
-                    }
-
-                    // Query for location of most shark attacks
-                    def method7(){
-                        println("Title of Query")
-                        val result = hiveCtx.sql("")
-                        result.show()
-                        result.write.csv("results/")
-                        log.write("")
-                    }
-
+                   // Query for total number of shark attacks since certain date
+             def method1(){
+                        println("Continent, Country Death rate") 
+                        val result = spark.sql(" WITH cte (SELECT continent,LOCATION   Country ,  sum(TOTAL_DEATHS)  Deaths  FROM temp_data group by continent,LOCATION) SELECT  * FROM cte   WHERE CONTINENT IS NOT NULL")
+                        result.show(160)
+                        Thread.sleep(100000)
+                        result.write.mode("overwrite").csv("results/") 
+                         
+                }
+ 
                      
-                    // STILL NEED TO FIGURE OUT THIS QUERY
-                    // Query for what time of day do most shark attacks occur
-                    def method8(){
-                        println("Title of Query")
-                        val result = hiveCtx.sql("")
-                        result.show()
-                        result.write.csv("results/")
-                        log.write("")
+             def method2(){
+                      println("Covid Reports below Avg life_expectancy")
+                        val result = spark.sql("select location Country, sum(total_deaths) Total_Deaths, life_expectancy from temp_data group by location , life_expectancy  having life_expectancy  < Avg(life_expectancy) AND life_expectancy is not null")
+                        result.show(160)
+                        Thread.sleep(100000)
+                        result.write.mode("overwrite").csv("results/")
                     }
-                    // cast(str_column as int)
-
-
-                    // Query for the number of provoked and unprovoked shark attacks
-                    def method9(){
-                        println("Title of Query")
-                        val result = hiveCtx.sql("")
-                        result.show()
-                        result.write.csv("results/")
-                        log.write("")
+            def method3():Unit={
+                        println("Total Number of Vaccinated People and Total Death")
+                        val queryMe="select location, NumberOfVaccination, NumberOfDeaths from(select location, max(total_vaccinations) NumberOfVaccination, max(total_deaths) NumberOfDeaths from temp_data where location is not null  group by location) as q1 where location not like \'%%income\' order by NumberOfVaccination desc"
+                        val result = spark.sql(queryMe)
+                        result.show(20)
+                        Thread.sleep(100000)
+                        result.write.mode("overwrite").csv("results/")
                     }
-
-                    // Query for average age range of people attacked
-                    def method10(){
+             def method4():Unit={
+                        println(" population density and Deaths")
+                        val result = spark.sql("select max(population_density)  Population_Density, location as Country, max(total_deaths) TotalDeaths from temp_data where population_density is not null group by location order by population_density desc")
+                        result.show(160)
+                        Thread.sleep(100000)
+                        result.write.mode("overwrite").csv("results/")
+                    }  
+             def method5():Unit={
                         println("Title of Query")
-                        val result = hiveCtx.sql("")
-                        result.show()
-                        result.write.csv("results/")
-                        log.write("")
-                    }
+                        val result = spark.sql("select max(total_deaths) TotalDeaths, hospital_beds_per_thousand  Available_hospital_beds, location From (select distinct location, continent, hospital_beds_per_thousand, total_deaths from temp_data where location is not null and continent is not null)  q1 group by hospital_beds_per_thousand, location order by totaldeaths desc ")
+                        result.show(160)
+                        Thread.sleep(100000)
+                        result.write.mode("overwrite").csv("results/")
+                    } 
+             def method6():Unit={
+                        println("Title of Query")
+                        val result = spark.sql("select location,  sum(cast(total_vaccinations as decimal(20,0))) as Total_Vaccination, trunc(date, 'year') as Year from temp_data where location is not null  AND date= '12/31/2020' OR date='12/31/2021' group by location,date")
+                        result.show(160)
+                        Thread.sleep(100000)
+                        result.write.mode("overwrite").csv("results/")
+                    } 
+             def method7():Unit={
+                        println("Title of Query")
+                        val result = spark.sql("select location, continent, max(total_deaths) TotalDeath, max( people_fully_vaccinated) FullyVaccinated from temp_data where continent is not null group by location,continent")
+                        result.show(160)
+                        Thread.sleep(100000)
+                        result.write.mode("overwrite").csv("results/")
+                    } 
+             def method8():Unit={
+                        println("Title of Query")
+                         val result = spark.sql("select median_age, aged_65_older, aged_70_older, max( people_fully_vaccinated)  FullyVaccinated from temp_data group by median_age, aged_65_older, aged_70_older")
+                        result.show(160)
+                        Thread.sleep(100000)
+                        result.write.mode("overwrite").csv("results/")
+                    } 
+             def method9():Unit={
+                        println("new cases per day")
+                        val result = spark.sql("select location, continent, new_cases , date from temp_data where continent is not null group by location,continent, new_cases, date ")
+                        result.show(160)
+                        Thread.sleep(100000)
+                        result.write.mode("overwrite").csv("results/")
+                    } 
+             def method10():Unit={
+                        println("view entire data set")
+                        val result = spark.sql("select * from temp_data")
+                        result.show(160)
+                        Thread.sleep(100000)
+                        result.write.mode("overwrite").csv("results/")
+                    } 
+               
+          spark.stop()
+                  
 
 
                             
-                }
+                
 
                 //? to overwrite csv file if already exist result.write.mode(SaveMode.Overwrite).csv("filename")
                 //? take first 2 digits of time as int then use that to find time of day
@@ -416,3 +403,4 @@ object Project_2 {
     }
   
 }
+
