@@ -1,5 +1,6 @@
 Project_1_Covid 19 Data Analysis
-This project will anaylize Covid 19 data using SparkSQL. Zeppelin will be used for visuailzation purposes.
+
+- This project will anaylize Covid 19 data using SparkSQL. Zeppelin will be used for visuailzation purposes.
 
 Contributors
 - 1Abdoul
