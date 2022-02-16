@@ -3,9 +3,13 @@ This project will anaylize Covid 19 data using SparkSQL. Zeppelin will be used f
 
 
 Technologies Used
+
 Spark 3.1.2
+
 Scala 2.11.12
+
 MySQL 8.0.19
+
 SBT 1.5.4
 Apache Zeppelin 0.10
 VS Code
