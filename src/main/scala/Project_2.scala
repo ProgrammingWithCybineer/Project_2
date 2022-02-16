@@ -103,6 +103,7 @@ object Project_2 {
                     //User logging in
                     def userLogIn(){
                         println(" Please type a User Name")
+
                        userName = scanner.nextLine().trim()
                     
                         //Username checkpoint
@@ -116,10 +117,24 @@ object Project_2 {
                                 
                                 }
                         }
+
+                        userName = scanner.nextLine().trim()
+                        //Username checkpoint
+                        try {
+                            if (userName == "" || userName.length < 3) 
+                                throw new BadDataEntryException
+                                }
+                                catch 
+                                {
+                                    case bui: BadDataEntryException => { println("Name must be at leat a 3 character string. Try again.")
+                                    userLogIn()
+                                }
+
                         println("")
 
                         println(" Please type A Password")
                         userPassword = scanner.nextLine().trim()
+
                      
                     
 
@@ -135,6 +150,19 @@ object Project_2 {
                         
                         val resultSet = statement.executeQuery("SELECT COUNT(*) FROM payroll.admin_accounts WHERE user_name='"+userName+"' AND Password='"+userPassword+"';")
                         //log.write("Executing 'SELECT COUNT(*) FROM userAccount WHERE userName='"+userName+"' AND userPassword='"+userPassword+"');\n")
+
+                        try {
+                            if (userPassword == "" || userPassword.length < 8) 
+                                throw new BadDataEntryException
+                                }
+                                catch 
+                                {
+                                    case bui: BadDataEntryException => { println("Password must be greater than 7 characters. Try again.")
+                                    userLogIn()
+                                }
+                        val resultSet = statement.executeQuery("SELECT COUNT(*) FROM userAccount WHERE userName='"+userName+"' AND userPassword='"+userPassword+"';")
+                        log.write("Executing 'SELECT COUNT(*) FROM userAccount WHERE userName='"+userName+"' AND userPassword='"+userPassword+"');\n")
+
                         while ( resultSet.next() ) {
                             if (resultSet.getString(1) == "1") {
                                 println("You Have Logged In Successfully")
