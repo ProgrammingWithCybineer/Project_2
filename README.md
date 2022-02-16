@@ -5,6 +5,7 @@ Project_1_Covid 19 Data Analysis
 Contributors
 - 1Abdoul
 - simz014
+- programmingwithcybineer
 
 
 Technologies Used
