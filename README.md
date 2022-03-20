@@ -1,4 +1,4 @@
-# Project_2_Covid 19 Data Analysis
+# Project_2 Covid 19 Data Analysis
 
 - This project will anaylize Covid 19 data using SparkSQL. Zeppelin will be used for visuailzation purposes.
 
@@ -9,14 +9,13 @@ Contributors
 
 
 Technologies Used
-
+- Scala 2.11.12
 - Apache Spark 3.1.2
 - Spark SQL
 - MySQL 8.0.19
 - YARN
 - HDFS
 - SBT 1.5.4
-- Scala 2.11.12
 - Git + GitHub
 - Zeppelin 0.10
 - SBT 1.5.4
