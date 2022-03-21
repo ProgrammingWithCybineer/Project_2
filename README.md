@@ -2,13 +2,13 @@
 
 - This project will anaylize Covid 19 data using SparkSQL. Zeppelin will be used for visuailzation purposes.
 
-Contributors
+### Contributors
 - 1Abdoul
 - simz014
 - programmingwithcybineer
 
 
-Technologies Used
+### Technologies Used
 - Scala 2.11.12
 - Apache Spark 3.1.2
 - Spark SQL
@@ -21,10 +21,10 @@ Technologies Used
 - SBT 1.5.4
 - VS Code
 
-Features: Current Features
-User login
+### Current Features
+- User login
 
 
-Future Features
-Create a GUI for better user interaction
-Allow automatic update of the latest Covid 19 data.
+### Future Features
+- Create a GUI for better user interaction
+- Allow automatic update of the latest Covid 19 data.
